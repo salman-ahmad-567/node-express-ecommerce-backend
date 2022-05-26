@@ -1,59 +1,43 @@
 const mongoose = require("mongoose")
-
+const bcrypt = require("bcryptjs/dist/bcrypt")
 const jwt = require("jsonwebtoken")
-const bcrypt = require("bcryptjs")
 
-const UserSchema = new mongoose.schema({
-    name: {
+const UserSchema = new mongoose.Schema({
+    name:{
         type: String,
-        required: [true, "Please provide a name for the user."]
+        required: [true, 'Please provide name of the user.']
     },
-    email: {
+    email:{
         type: String,
-        required: [true, "Please provide email."]
+        required:[true, 'Please provide email.'],
+        unique: true
     },
-    password: {
-        type: String,
-        required: [true, "Password is required for the user."]
-    }
+    password:{
+        type:String,
+        required:[true, 'Please provide password.']
+    },
+
 })
 
-// Create a Hashed Password to store in Password Field (Hash User Password) before saving new Record
 UserSchema.pre('save', async function(){
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(this.password, salt)
     this.password = hash
 })
 
-//Verify Given Password against User's Hashed Password
-UserSchema.methods.verifyPassword = async function(candidatePassword){
-    const result = await bcrypt.compare(candidatePassword, this.password)
-    return result
+UserSchema.methods.comparePassword = async function(candidatePassword){
+    isMatch = await bcrypt.compare(candidatePassword, this.password)
+    return isMatch
 }
 
-//Create JWT for User
 UserSchema.methods.createJWT = function(){
-    // D S E
-    //Data, Secret, Expiry
     const token = jwt.sign(
-        {id: this._id, name:this.name, email:this.email},
+        {userId:this._id, name: this.name, email:this.email},
         process.env.JWT_SECRET,
-        {
-            expiresIn: '30d'
-        } 
+        {expiresIn:'30d'}
     )
     return token
 }
 
-//Verify Given Token against User's generated token
-UserSchema.methods.verifyJWT = function(token){
-    //T S
-    //Token, Secret
-    const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET
-    )
-    return decoded
-}
-
-module.exports = mongoose.model('User', UserSchema)
+const User = mongoose.model('User', UserSchema)
+module.exports = User

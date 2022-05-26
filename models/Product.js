@@ -1,15 +1,24 @@
 const mongoose = require("mongoose")
 
-const ProductSchema = new mongoose.schema({
-    name: {
-        type: String,
-        required: [true, "Please provide a name for the product."]
+const ProductSchema = new mongoose.Mongoose.Schema({
+    name:{
+        type:String,
+        required:[true, 'Please provide name.']
     },
-    price: {
+    description:{
+        type:String,
+        required:false,
+        default:''
+    },
+    price:{
         type: Number,
-        required: [true, "Please provide price for the product."]
+        required:[true, 'Please provide price.s']
+    },
+    image:{
+        type: String,
+        required:false
     }
 })
 
-
-module.exports = mongoose.model('Product', ProductSchema)
+const Product = ProductSchema.model('Product', ProductSchema)
+module.exports = Product
