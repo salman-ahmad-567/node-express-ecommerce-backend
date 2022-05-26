@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const ProductSchema = new mongoose.Mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
     name:{
         type:String,
         required:[true, 'Please provide name.']
@@ -12,7 +12,7 @@ const ProductSchema = new mongoose.Mongoose.Schema({
     },
     price:{
         type: Number,
-        required:[true, 'Please provide price.s']
+        required:[true, 'Please provide price.']
     },
     image:{
         type: String,
@@ -20,5 +20,5 @@ const ProductSchema = new mongoose.Mongoose.Schema({
     }
 })
 
-const Product = ProductSchema.model('Product', ProductSchema)
+const Product = mongoose.model('Product', ProductSchema)
 module.exports = Product
