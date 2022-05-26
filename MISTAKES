@@ -4,5 +4,7 @@
 
 2- MUST USE AWAIT FOR ANY ASYNC FUNCTION CALL
 
-3- Must use Return statement inside ANY if statement returning a Response
+2- MUST USE AWAIT FOR ALL DATABASE FUNCTION CALLS
+
+3- Must use Return statement inside ANY if statement Sending a Response
  
