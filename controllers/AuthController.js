@@ -53,7 +53,6 @@ const login = async (req, res)=>{
 
         //compare password, if user is found 
         //(MUST USE AWAIT)
-        //MUST USE AWAIT FOR ANY ASYNC FUNCTION CALL and (user.comparePassword IS AN ASYNC FUNCTION)
         const isMatch = await user.comparePassword(password)
 
         //if password doesnt match send error

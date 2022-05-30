@@ -6,6 +6,7 @@ require("dotenv").config()
 
 const AuthRouter = require("./routes/AuthRouter")
 const ProductRouter = require("./routes/ProductRouter")
+const CategoryRouter = require("./routes/CategoryRouter")
 
 const authenticate = require("./middlewares/Authentication")
 
@@ -14,6 +15,7 @@ app.use(express.json())
 
 app.use('/auth', AuthRouter)
 app.use('/products', authenticate, ProductRouter)
+app.use("/categories", authenticate, CategoryRouter)
 
 const PORT = process.env.PORT || 3000
 

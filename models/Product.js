@@ -17,6 +17,11 @@ const ProductSchema = new mongoose.Schema({
     image:{
         type: String,
         required:false
+    },
+    category:{
+        type: mongoose.Types.ObjectId,
+        ref: 'Category',
+        requied: true
     }
 })
 

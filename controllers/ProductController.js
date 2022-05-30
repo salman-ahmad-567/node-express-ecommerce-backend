@@ -4,7 +4,7 @@ const Product = require("../models/Product")
 const getAllProducts = async(req, res)=>{
     try{
         //Fetch products from Database (Await)
-        const products = await Product.find({})
+        const products = await Product.find({}).populate('category')
         
         //send products data in response
         res.status(200).json({data:products})
@@ -18,7 +18,7 @@ const getAllProducts = async(req, res)=>{
 const createProduct = async(req, res)=>{
     try{
         //Fetch Data from Request
-        const {name, price, description} = req.body
+        const {name, price, description, categoryId } = req.body
 
         //Validate the input data
         if(!name || !price || !description){
@@ -26,7 +26,7 @@ const createProduct = async(req, res)=>{
         }
 
         //Async Await, store product Data in the Database
-        const product = await Product.create({name, price, description})
+        const product = await Product.create({name, price, description, category: categoryId })
 
         //return success
         res.status(200).json({data: product})
@@ -43,11 +43,11 @@ const getSingleProduct = async(req, res)=>{
         const productId = req.params.id
 
         //Find product in the Database (Async-Await) using the id
-        const product = await Product.findOne({_id:productId})
+        const product = await Product.findOne({_id:productId}).populate('category')
 
-        //If no product is found, send appropriate message
+        //If no product is found, send appropriate message (MUST USE RETURN statement inside IF returning a Response)
         if(!product){
-            res.status(200).json({message:`No product found for given id ${productId}`})
+            return res.status(200).json({message:`No product found for given id ${productId}`})
         }
 
         //send product data, if product is found
@@ -62,7 +62,7 @@ const getSingleProduct = async(req, res)=>{
 const updateProduct = async(req, res)=>{
     try{
         //Get the input Data from the Request
-        const {name, price, description} = req.body
+        const {name, price, description, categoryId} = req.body
 
         //Validate the input data
         if(!name || !price || !description){
@@ -78,7 +78,7 @@ const updateProduct = async(req, res)=>{
         //Fetch the product from the Database (Async-Await) and update it
         const updatedProduct = await Product.findOneAndUpdate(
             {_id:productId}, 
-            {name, price, description},
+            {name, price, description, category: categoryId},
             {new:true, runValidators:true}
         ) 
 
