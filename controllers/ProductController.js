@@ -1,6 +1,7 @@
 const { reset } = require("nodemon")
 const Product = require("../models/Product")
 
+
 const getAllProducts = async(req, res)=>{
     try{
         //Fetch products from Database (Await)
@@ -26,10 +27,10 @@ const createProduct = async(req, res)=>{
         }
 
         //Async Await, store product Data in the Database
-        const product = await Product.create({name, price, description, category: categoryId })
+        const product = await Product.create({name, price, description, category: categoryId, image:req?.file?.filename })
 
         //return success
-        res.status(200).json({data: product})
+        res.status(200).json({data: product, file:req.file})
     }
     catch(error){
         console.log(error)
