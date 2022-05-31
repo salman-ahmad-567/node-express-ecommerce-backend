@@ -12,9 +12,12 @@ const {
 
 router.get('/', getAllOrders)
 router.post('/', createOrder)
-router.put('/update-order-status', updateOrder)
-router.get('/:id', getSingleOrder)
 router.get('/my-orders', getCurrentUserOrders)
+
+//Must define all /:id Routes in the END.
+
+router.get('/:id', getSingleOrder)
+router.put('/:id', updateOrder)
 router.delete('/:id', deleteOrder)
 
 

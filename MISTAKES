@@ -8,3 +8,15 @@
 
 3- Must use Return statement inside ANY if statement Sending a Response
  
+
+4- /:id Routes must be placed at the END of the file, After all other Normal Routes.
+    or else it will consider every other string after the base path as id
+
+    For example if 2 Routes are defined in the BELOW Mentioned ORDER
+    route.get('orders/:id')
+    route.get('orders/my-order')
+
+    Then the URL 'https://127.0.0.1/orders/my-order' will point to 
+    route.get('orders/:id') instead of 
+    route.get('orders/my-order')
+    with 'my-orders' being considered as 'id'
